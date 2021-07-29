@@ -1,5 +1,7 @@
 {
   "name": "YMAgentSdkDemo",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

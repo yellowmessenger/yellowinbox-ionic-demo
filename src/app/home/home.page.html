@@ -1,20 +1,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Ionic Demo App </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">YM Partner SDK Demo</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <h1>YM Agent SDK Demo</h1>
+    <ul>
+      <li>
+        <ion-button
+          size="medium"
+          color="warning"
+          (click)="openOverViewActivity()"
+          >Start overview Page</ion-button
+        >
+      </li>
+
+      <li>
+        <ion-button size="medium" color="primary" (click)="openMyChatActivity()"
+          >Start Chat Page</ion-button
+        >
+      </li>
+
+      <li>
+        <div>
+          <p>Change Agent status</p>
+          <ion-button
+            size="medium"
+            color="primary"
+            (click)="changeAgentStatus('AVAILABLE')"
+            >Available
+          </ion-button>
+          <ion-button
+            size="medium"
+            color="primary"
+            (click)="changeAgentStatus('BUSY')"
+            >Busy</ion-button
+          >
+          <ion-button
+            size="medium"
+            color="primary"
+            (click)="changeAgentStatus('AWAY')"
+            >Away</ion-button
+          >
+        </div>
+      </li>
+
+      <li>
+        <ion-button size="medium" color="primary" (click)="getAgentStatus()"
+          >Get agent status</ion-button
+        >
+      </li>
+
+      <li>
+        <ion-button size="medium" color="primary" (click)="logout()"
+          >Logout</ion-button
+        >
+      </li>
+    </ul>
   </div>
 </ion-content>
