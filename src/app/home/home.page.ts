@@ -11,7 +11,6 @@ declare let cordova: any;
 export class HomePage {
   private YMAgentSdk: any;
   private botId: String;
-  private subscriptionId: Number;
   private userId: String;
   private apiKey: String;
   private source: String;
@@ -21,10 +20,9 @@ export class HomePage {
   constructor() {
     console.log("Came to constructor");
     this.YMAgentSdk = cordova.plugins.YMAgentSdk;
-    this.botId = "x1609740331340";
+    this.botId = "x1608615889375";
     this.userId = "purushottam.yadav@yellow.ai";
-    this.apiKey = "f2b588eafc8d6e6a4d166ff534413b363ddde496d3068fe07ea67d5ee8ad33d7";
-    this.subscriptionId = 1;
+    this.apiKey = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
     this.initializeYmChat(() => {
       console.log("Initializing completed");
     })
