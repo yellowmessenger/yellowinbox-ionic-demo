@@ -70,11 +70,11 @@ export class HomePage {
     cordova.plugins.YMAgentSdk.setFirebaseDeviceToken("");
   }
 
-  changeAgentStatus(status) {
+  setAgentStatus(status) {
     console.log("Change bot status called");
     this.initializeYmChat(
       () => {
-        cordova.plugins.YMAgentSdk.changeAgentStatus(
+        cordova.plugins.YMAgentSdk.setAgentStatus(
           (status) => {
             alertSuccess("Changed Agent status successfully")
             success(status);

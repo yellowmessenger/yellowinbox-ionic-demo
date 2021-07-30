@@ -2,12 +2,12 @@
 
 This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in a ionic app
 
-`YMAgentSdk` can be found at [https://github.com/yellowmessenger/cordova-plugin-yellowinbox](https://github.com/yellowmessenger/cordova-plugin-yellowinbox)
+`cordova-plugin-yellowinbox` can be found at [https://github.com/yellowmessenger/cordova-plugin-yellowinbox](https://github.com/yellowmessenger/cordova-plugin-yellowinbox)
 
 ## Steps to run
 
 1. Clone this `YMAgentSdkDemo` app
-2. clone the `YMAgentSdk` from [https://github.com/PurushYM/YMAgentSdk](https://github.com/PurushYM/YMAgentSdk)
+2. Run ionic cordova prepare
 3. keep both projects at same folder level
 
    ```
