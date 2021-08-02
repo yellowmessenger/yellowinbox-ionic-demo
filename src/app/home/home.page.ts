@@ -10,99 +10,170 @@ declare let cordova: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  private YMAgentSdk: any;
-  private botId: String;
-  private userId: String;
-  private apiKey: String;
-  private source: String;
+  private isPlatformReady: Boolean = false;
+  private botId: String = "x1608615889375";
+  private userId: String = "purushottam.yadav@yellow.ai";
+  private apiKey: String = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
   private isInitialized: Boolean = false;
   private isInitializing: Boolean = false;
 
   constructor(public platform: Platform) {
     platform.ready().then(
       () => {
-        console.log("Came to constructor");
-        this.YMAgentSdk = cordova.plugins.YMAgentSdk;
-        this.botId = "x1608615889375";
-        this.userId = "purushottam.yadav@yellow.ai";
-        this.apiKey = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
-        this.initializeYmChat(() => {
-          console.log("Initializing completed");
-        })
+        this.isPlatformReady = true;
       }
     )
   }
 
-  initializeYmChat(callBackFunction) {
+  initializeYellowInbox() {
     console.log("Initializing ...")
 
-    if (this.isInitializing) {
+    if (!this.isPlatformReady) {
+      alertSuccess("Please wait until platform is ready");
+    }
+    else if (this.isInitializing) {
       alertSuccess("Please wait while initializing ...");
     }
     else if (!this.isInitialized) {
       this.isInitializing = true;
       alertSuccess("Initializing ... please click ok wait");
-      cordova.plugins.YMAgentSdk.initialize(
-        this.apiKey, this.userId, this.botId, () => {
+      //  initialize 
+
+      /* 
+          cordova.plugins.YellowInbox.initialize(
+          apiKey: String, 
+          userId: String, 
+          botId: String, 
+          successCallback: () => void, 
+          failureCallback: (failureCallback: Object) => void
+          );
+      */
+
+
+      cordova.plugins.YellowInbox.initialize(
+        this.apiKey,
+        this.userId,
+        this.botId,
+        () => {
           this.isInitializing = false;
           this.isInitialized = true;
-          console.log("Setting listener ...");
-
-          cordova.plugins.YMAgentSdk.setLocalReceiver((event) => {
-            this.isInitialized = false;
-            this.isInitializing = false;
-            success(event);
-            cordova.plugins.YMAgentSdk.setUpdatedEvent("Changed " + event.title, event.body, event.model, event.eventType, success, failure);
-          }, (errResult) => {
-            this.isInitializing = false;
-            failure(errResult);
-          });
-
-          console.log("initialized YMAgentSdk");
-          callBackFunction();
+          alert("Initialized SDK :)")
         },
         failure);
     }
-    else {
-      console.log("Already initialized");
-      callBackFunction();
-    }
+  }
+
+  setLocalListener() {
+    //  setLocalListener
+
+    /* 
+        cordova.plugins.YellowInbox.initialize(
+        successCallback: (eventCallback: Object) => void, 
+        failureCallback: (failureCallback: Object) => void
+        );
+    */
+
+    cordova.plugins.YellowInbox.setLocalReceiver((event) => {
+      this.isInitialized = false;
+      this.isInitializing = false;
+      success(event);
+      this.setUpdatedEvent(event);
+    }, (errResult) => {
+      this.isInitializing = false;
+      failure(errResult);
+    });
+  }
+
+  setUpdatedEvent(event) {
+    //  setUpdatedEvent
+
+    /* 
+        cordova.plugins.YellowInbox.setUpdatedEvent(
+        title: String,
+        body: Object,
+        model: Object,
+        eventType: String,
+        successCallback: () => void, 
+        failureCallback: (failureCallback: Object) => void
+    );
+    */
+
+    // updating title 
+    event.title = "Changed " + event.title
+
+    cordova.plugins.YellowInbox.setUpdatedEvent(
+      event.title,
+      event.body,
+      event.model,
+      event.eventType,
+      success,
+      failure);
   }
 
   setAgentStatus(status) {
-    console.log("Change bot status called");
-    this.initializeYmChat(
-      () => {
-        cordova.plugins.YMAgentSdk.setAgentStatus(
-          status,
-          (status) => {
-            alertSuccess("Changed Agent status successfully")
-            success(status);
-          },
-          failure
-        )
-      }
-    );
+    if (this.isInitialized) {
+
+      //  setAgentStatus
+
+      /* 
+          cordova.plugins.YellowInbox.setAgentStatus(
+          status: String,
+          successCallback: () => void, 
+          failureCallback: (failureCallback: Object) => void
+      );
+      */
+
+      cordova.plugins.YellowInbox.setAgentStatus(
+        status,
+        () => {
+          alertSuccess("Changed Agent status successfully")
+          success(status);
+        },
+        failure
+      )
+    }
+    else {
+      notInitialized();
+    }
   }
 
   getAgentStatus() {
-    console.log("Get bot status called");
-    this.initializeYmChat(
-      () => {
-        cordova.plugins.YMAgentSdk.getAgentStatus(
-          (status) => {
-            success(status);
-            alertSuccess(status);
-          }, failure
-        )
-      }
-    )
+
+    //  getAgentStatus
+
+    /* 
+        cordova.plugins.YellowInbox.getAgentStatus(
+        successCallback: (status: String) => void, 
+        failureCallback: (failureCallback: Object) => void
+    );
+    */
+
+    if (this.isInitialized) {
+      cordova.plugins.YellowInbox.getAgentStatus(
+        (status) => {
+          success(status);
+          alertSuccess(status);
+        }, failure
+      )
+    }
+    else {
+      notInitialized();
+    }
   }
 
   logout() {
-    console.log("Logout called");
+
+    //  logout
+
+    /* 
+        cordova.plugins.YellowInbox.logout(
+        successCallback: () => void, 
+        failureCallback: (failureCallback: Object) => void
+    );
+    */
+
     if (this.isInitialized) {
-      cordova.plugins.YMAgentSdk.logout(
+      cordova.plugins.YellowInbox.logout(
         () => {
           this.isInitialized = false;
           success({ success: "Logged out successfully" });
@@ -116,41 +187,43 @@ export class HomePage {
     }
   }
 
-  handleBackgroundNotification(extraData) {
-    console.log("Set Extra data called");
-    cordova.plugins.YMAgentSdk.handleBackgroundNotification(extraData);
+  startOverviewScreen() {
+    if (this.isInitialized) {
+      //  startOverviewScreen
+
+      /* 
+          cordova.plugins.YellowInbox.startOverviewScreen(
+          successCallback: () => void, 
+          failureCallback: (failureCallback: Object) => void
+      );
+      */
+
+      cordova.plugins.YellowInbox.startOverviewScreen(success, failure);
+    }
+    else {
+      notInitialized();
+    }
   }
 
-  startOverviewActivity() {
-    console.log("Came here to start overview")
-    cordova.plugins.YMAgentSdk.startOverviewScreen(success, failure);
-  }
+  startMyChatScreen() {
+    if (this.isInitialized) {
 
-  startMyChatActivity() {
-    console.log("Came here to start chat activity")
-    cordova.plugins.YMAgentSdk.startMyChatScreen(success, failure);
-  }
+      //  startMyChatScreen
 
-  openOverViewActivity() {
-    this.initializeYmChat(this.startOverviewActivity)
-  }
+      /* 
+          cordova.plugins.YellowInbox.startMyChatScreen(
+          successCallback: () => void, 
+          failureCallback: (failureCallback: Object) => void
+      );
+      */
 
-  openMyChatActivity() {
-    this.initializeYmChat(this.startMyChatActivity)
-  }
 
-  getAllAgents() {
-    cordova.plugins.YMAgentSdk.getAgents(showAllAgentsInAlert, failure);
+      cordova.plugins.YellowInbox.startMyChatScreen(success, failure);
+    }
+    else {
+      notInitialized()
+    }
   }
-}
-
-const showAllAgentsInAlert = (agentsList) => {
-  console.log(agentsList);
-  var finalString = "Status             Name\n";
-  agentsList.forEach(agentModel => {
-    finalString = finalString + `\n${agentModel.status}        ${agentModel.agentProfile.name}`
-  });
-  alert(finalString);
 }
 
 const success = (result) => {
@@ -164,3 +237,7 @@ const alertSuccess = (result) => {
 const failure = (result) => {
   console.log(JSON.stringify(result));
 };
+
+const notInitialized = () => {
+  alert("Not Initialized please press Initialize button")
+}
