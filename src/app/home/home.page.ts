@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { filter } from 'minimatch';
+import { Platform } from '@ionic/angular';
 
 declare let cordova: any;
 
@@ -17,16 +18,19 @@ export class HomePage {
   private isInitialized: Boolean = false;
   private isInitializing: Boolean = false;
 
-  constructor() {
-    console.log("Came to constructor");
-    this.YMAgentSdk = cordova.plugins.YMAgentSdk;
-    this.botId = "x1608615889375";
-    this.userId = "purushottam.yadav@yellow.ai";
-    this.apiKey = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
-    this.initializeYmChat(() => {
-      console.log("Initializing completed");
-    })
-
+  constructor(public platform: Platform) {
+    platform.ready().then(
+      () => {
+        console.log("Came to constructor");
+        this.YMAgentSdk = cordova.plugins.YMAgentSdk;
+        this.botId = "x1608615889375";
+        this.userId = "purushottam.yadav@yellow.ai";
+        this.apiKey = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
+        this.initializeYmChat(() => {
+          console.log("Initializing completed");
+        })
+      }
+    )
   }
 
   initializeYmChat(callBackFunction) {
@@ -39,7 +43,7 @@ export class HomePage {
       this.isInitializing = true;
       alertSuccess("Initializing ... please click ok wait");
       cordova.plugins.YMAgentSdk.initialize(
-        () => {
+        this.apiKey, this.userId, this.botId, () => {
           this.isInitializing = false;
           this.isInitialized = true;
           console.log("Setting listener ...");
@@ -48,7 +52,7 @@ export class HomePage {
             this.isInitialized = false;
             this.isInitializing = false;
             success(event);
-            cordova.plugins.YMAgentSdk.setUpdatedEvent(success, failure, "Changed " + event.title, event.body, event.model, event.eventType);
+            cordova.plugins.YMAgentSdk.setUpdatedEvent("Changed " + event.title, event.body, event.model, event.eventType, success, failure);
           }, (errResult) => {
             this.isInitializing = false;
             failure(errResult);
@@ -57,7 +61,7 @@ export class HomePage {
           console.log("initialized YMAgentSdk");
           callBackFunction();
         },
-        failure, this.apiKey, this.userId, this.botId);
+        failure);
     }
     else {
       console.log("Already initialized");
@@ -65,22 +69,17 @@ export class HomePage {
     }
   }
 
-  setFireBaseDeviceToken() {
-    console.log("Set firebase token called");
-    cordova.plugins.YMAgentSdk.setFirebaseDeviceToken("");
-  }
-
   setAgentStatus(status) {
     console.log("Change bot status called");
     this.initializeYmChat(
       () => {
         cordova.plugins.YMAgentSdk.setAgentStatus(
+          status,
           (status) => {
             alertSuccess("Changed Agent status successfully")
             success(status);
           },
-          failure,
-          status
+          failure
         )
       }
     );

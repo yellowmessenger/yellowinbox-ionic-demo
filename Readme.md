@@ -7,27 +7,15 @@ This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in
 ## Steps to run
 
 1. Clone this `YMAgentSdkDemo` app
-2. Run ionic cordova prepare
-3. keep both projects at same folder level
-
-   ```
-   exampleFolder
-   |
-   |- YMAgentSdk
-   |- YmAgentSdkDemo
-
-   ```
-
-4. Open terminal and navigate to `YMAgentSdkDemo` folder
-5. Run the following command to activate android platform
+   2.Run the following command to activate android platform
    ```
    ionic cordova platform add android
    ```
-6. Run following command to install YMAgentSdk to demo project
+2. Run
    ```
-   ionic cordova add ../YMAgentSdk
+   ionic cordova prepare android
    ```
-7. Run following command to run application on android
+3. Run following command to run application on android
    ```
     ionic cordova run android
    ```
