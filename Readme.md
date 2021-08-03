@@ -1,4 +1,4 @@
-# ionic-demo-agent
+# yellowinbox-ionic-demo
 
 This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in a ionic app
 
@@ -6,7 +6,7 @@ This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in
 
 ## Steps to run
 
-1. Clone this `YMAgentSdkDemo` app
+1. Clone this `yellowinbox-ionic-demo` app
    2.Run the following command to activate android platform
    ```
    ionic cordova platform add android
