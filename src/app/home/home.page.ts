@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { filter } from 'minimatch';
 import { Platform } from '@ionic/angular';
 
 declare let cordova: any;
@@ -11,9 +10,6 @@ declare let cordova: any;
 })
 export class HomePage {
   private isPlatformReady: Boolean = false;
-  private botId: String = "x1608615889375";
-  private userId: String = "purushottam.yadav@yellow.ai";
-  private apiKey: String = "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7";
   private isInitialized: Boolean = false;
   private isInitializing: Boolean = false;
 
@@ -51,9 +47,9 @@ export class HomePage {
 
 
       cordova.plugins.YellowInbox.initialize(
-        this.apiKey,
-        this.userId,
-        this.botId,
+        "a6aee4bc2885b10c2c1b02b96080263057438d2673a5512c6b64da2a3f818ee7",
+        "purushottam.yadav@yellow.ai",
+        "x1608615889375",
         () => {
           this.isInitializing = false;
           this.isInitialized = true;
