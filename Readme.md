@@ -7,13 +7,10 @@ This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in
 ## Steps to run
 
 1. Clone this `yellowinbox-ionic-demo` app
-   2.Run the following command to activate android platform
+
+2. Run following command to install the dependencies for the project
    ```
-   ionic cordova platform add android
-   ```
-2. Run
-   ```
-   ionic cordova prepare android
+   ionic cordova prepare
    ```
 3. Run following command to run application on android
    ```
@@ -22,4 +19,4 @@ This demo app demonstrates how `cordova-plugin-yellowinbox` can be integrated in
 
 ## Links
 
-Documentation on YMAgentSdkIonic - https://docs.google.com/document/d/1OSyQvOIfyUtYk3KAD0R-noWovnBABhcwawFVF9Iy1dA/edit#
+Documentation on YMAgentSdkIonic - [https://docs.yellow.ai/docs/platform_concepts/inbox/mobilesdk/cordova/](https://docs.yellow.ai/docs/platform_concepts/inbox/mobilesdk/cordova/)

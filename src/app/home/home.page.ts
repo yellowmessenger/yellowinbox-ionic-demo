@@ -54,6 +54,8 @@ export class HomePage {
           this.isInitializing = false;
           this.isInitialized = true;
           alert("Initialized SDK :)")
+
+          this.setLocalListener();
         },
         failure);
     }
@@ -70,8 +72,6 @@ export class HomePage {
     */
 
     cordova.plugins.YellowInbox.setLocalReceiver((event) => {
-      this.isInitialized = false;
-      this.isInitializing = false;
       success(event);
       this.setUpdatedEvent(event);
     }, (errResult) => {
@@ -98,10 +98,7 @@ export class HomePage {
     event.title = "Changed " + event.title
 
     cordova.plugins.YellowInbox.setUpdatedEvent(
-      event.title,
-      event.body,
-      event.model,
-      event.eventType,
+      event,
       success,
       failure);
   }
@@ -131,6 +128,19 @@ export class HomePage {
     else {
       notInitialized();
     }
+  }
+
+  setAgentStatusAvailable() {
+    console.log(cordova.plugins.YellowInbox.agentStatus);
+    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.AVAILABLE);
+  }
+
+  setAgentStatusBusy() {
+    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.BUSY);
+  }
+
+  setAgentStatusAway() {
+    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.AWAY);
   }
 
   getAgentStatus() {
@@ -183,38 +193,38 @@ export class HomePage {
     }
   }
 
-  startOverviewScreen() {
+  showOverviewScreen() {
     if (this.isInitialized) {
-      //  startOverviewScreen
+      //  showOverviewScreen
 
       /* 
-          cordova.plugins.YellowInbox.startOverviewScreen(
+          cordova.plugins.YellowInbox.showOverviewScreen(
           successCallback: () => void, 
           failureCallback: (failureCallback: Object) => void
       );
       */
 
-      cordova.plugins.YellowInbox.startOverviewScreen(success, failure);
+      cordova.plugins.YellowInbox.showOverviewScreen(success, failure);
     }
     else {
       notInitialized();
     }
   }
 
-  startMyChatScreen() {
+  showMyChatScreen() {
     if (this.isInitialized) {
 
-      //  startMyChatScreen
+      //  showMyChatScreen
 
       /* 
-          cordova.plugins.YellowInbox.startMyChatScreen(
+          cordova.plugins.YellowInbox.showMyChatScreen(
           successCallback: () => void, 
           failureCallback: (failureCallback: Object) => void
       );
       */
 
 
-      cordova.plugins.YellowInbox.startMyChatScreen(success, failure);
+      cordova.plugins.YellowInbox.showMyChatScreen(success, failure);
     }
     else {
       notInitialized()
