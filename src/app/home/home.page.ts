@@ -3,6 +3,12 @@ import { Platform } from '@ionic/angular';
 
 declare let cordova: any;
 
+interface AgentStatus {
+  parentStatus: String;
+  status: String;
+  statusId: String;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -19,6 +25,15 @@ export class HomePage {
         this.isPlatformReady = true;
       }
     )
+  }
+
+  allAgentStatus: AgentStatus[] = [
+  ];
+
+  statusDisabled: Boolean = true;
+
+  compareWith(o1: AgentStatus, o2: AgentStatus) {
+    return o1 && o2 ? o1.status === o2.status : o1 === o2;
   }
 
   initializeYellowInbox() {
@@ -54,7 +69,7 @@ export class HomePage {
           this.isInitializing = false;
           this.isInitialized = true;
           alert("Initialized SDK :)")
-
+          this.statusDisabled = false;
           this.setLocalListener();
         },
         failure);
@@ -110,7 +125,7 @@ export class HomePage {
 
       /* 
           cordova.plugins.YellowInbox.setAgentStatus(
-          status: String,
+          status: AgentStatus,
           successCallback: () => void, 
           failureCallback: (failureCallback: Object) => void
       );
@@ -130,20 +145,31 @@ export class HomePage {
     }
   }
 
-  setAgentStatusAvailable() {
-    console.log(cordova.plugins.YellowInbox.agentStatus);
-    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.AVAILABLE);
-  }
-
-  setAgentStatusBusy() {
-    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.BUSY);
-  }
-
-  setAgentStatusAway() {
-    this.setAgentStatus(cordova.plugins.YellowInbox.AgentStatus.AWAY);
-  }
-
   getAgentStatus() {
+
+    //  getAgentStatus
+
+    /* 
+        cordova.plugins.YellowInbox.getAgentStatus(
+        successCallback: (status: AgentStatus) => void, 
+        failureCallback: (failureCallback: Object) => void
+    );
+    */
+
+    if (this.isInitialized) {
+      cordova.plugins.YellowInbox.getAgentStatus(
+        (status) => {
+          success(status);
+          alertSuccess(status.status);
+        }, failure
+      )
+    }
+    else {
+      notInitialized();
+    }
+  }
+
+  getAllAgentStatus() {
 
     //  getAgentStatus
 
@@ -155,10 +181,17 @@ export class HomePage {
     */
 
     if (this.isInitialized) {
-      cordova.plugins.YellowInbox.getAgentStatus(
-        (status) => {
-          success(status);
-          alertSuccess(status);
+      cordova.plugins.YellowInbox.getAllAgentStatus(
+        (allAgentStatusJSON) => {
+          success(allAgentStatusJSON);
+
+          this.allAgentStatus = allAgentStatusJSON as AgentStatus[];
+          let outputString = "";
+          this.allAgentStatus.forEach(element => {
+            outputString += element.status + "\n";
+          });
+          alert(outputString);
+
         }, failure
       )
     }
@@ -166,6 +199,7 @@ export class HomePage {
       notInitialized();
     }
   }
+
 
   logout() {
 
@@ -230,6 +264,7 @@ export class HomePage {
       notInitialized()
     }
   }
+
 }
 
 const success = (result) => {

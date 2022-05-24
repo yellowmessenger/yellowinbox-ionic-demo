@@ -36,29 +36,19 @@
       </li>
 
       <li>
-        <div>
-          <p>Change Agent status</p>
-          <ion-button
-            size="medium"
-            color="primary"
-            (click)="setAgentStatusAvailable()"
-            >Available
-          </ion-button>
-          <ion-button
-            size="medium"
-            color="primary"
-            (click)="setAgentStatusBusy()"
-            >Busy</ion-button
-          >
-          <ion-button
-            size="medium"
-            color="primary"
-            (click)="setAgentStatusAway()"
-            >Away</ion-button
-          >
-        </div>
+        <ion-button size="medium" color="primary" (click)="getAllAgentStatus()"
+          >Get All Agent status</ion-button
+        >
       </li>
 
+      <li>
+      <ion-item>
+        <ion-label>Change Agent Status</ion-label>
+        <ion-select [compareWith]="compareWith" #C (ionChange)="setAgentStatus(C.value)" placeholder="Select One" [disabled]="statusDisabled">
+          <ion-select-option *ngFor="let status of allAgentStatus" [value]="status" >{{status.status}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      </li>
       <li>
         <ion-button size="medium" color="primary" (click)="getAgentStatus()"
           >Get agent status</ion-button
