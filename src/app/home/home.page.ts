@@ -174,8 +174,8 @@ export class HomePage {
     //  getAgentStatus
 
     /* 
-        cordova.plugins.YellowInbox.getAgentStatus(
-        successCallback: (status: String) => void, 
+        cordova.plugins.YellowInbox.getAllAgentStatus(
+        successCallback: (status: AgentStatus[]) => void, 
         failureCallback: (failureCallback: Object) => void
     );
     */
@@ -212,12 +212,13 @@ export class HomePage {
     );
     */
 
+    alertSuccess("Please wait while we log you out");
     if (this.isInitialized) {
       cordova.plugins.YellowInbox.logout(
         () => {
           this.isInitialized = false;
           success({ success: "Logged out successfully" });
-          alertSuccess("Logged out successfully")
+          alertSuccess("Logged out successfully :)");
         },
         failure
       );
